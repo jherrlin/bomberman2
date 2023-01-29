@@ -1,0 +1,46 @@
+#+TITLE: Bomberman 2
+#+AUTHOR: John Herrlin
+
+
+Bomberman 2 is my second attempt to build a bomberman game. My first attempt can
+be found [[https://github.com/jherrlin/bomberman-with-clara][here]]. The main reason for that project was to learn about rule engines,
+particularly [[clara-rules.org][Clara]] and the concept of event sourcing.
+
+The main reason for this project is to get hands on experience with Kafka,
+Kubernetes and Spring Boot / WebFlux. The aim is to create a backend system for
+a bomberman game that is non-blocking and can scale.
+
+I will try to use Kafkas stateful features to represent game states.
+
+As this is a hobby project, it will be mostly hacking and just a bit of
+planning.
+
+
+https://app.diagrams.net/#G17Gn34H8VIUsH-RZyaFH083-taw6coT0G
+
+
+* TODOs
+
+  - [ ] Create the rule set
+  - [ ] Create API service
+  - [ ] Report service, to inspect previous games
+  - [ ] Connect API and rules through Kafka
+  - [ ] Run on Kubernetes
+
+* API service
+
+  is responsible for interacting with the outside world. It provides a websocket
+  API where someone can listen to events for a specific game, so it's read only.
+  The HTTP API is the way to interact with the game and its features.
+
+* Public methods in API service
+
+  - Create new game
+  - Join game
+  - Start game
+  - Leave game
+  - Inspect game
+  - In game actions:
+    - Move (north, west, east, south)
+    - Place bomb
+    - Throw bomb
