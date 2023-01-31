@@ -1,0 +1,6 @@
+#+TITLE: Rules
+
+
+Rules in Clara are defined from data. A game should be able to select what rules
+should be included in that particular game. Rule could also change in game, say
+move south could mean move north.
