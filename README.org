@@ -18,6 +18,13 @@ planning.
 
 https://app.diagrams.net/#G17Gn34H8VIUsH-RZyaFH083-taw6coT0G
 
+* Kafka, Zookeeper, schema-registry, ksqldb
+
+  Before moving into k8s, lets use docker-compose.
+
+  #+BEGIN_SRC shell :results output code
+    docker-compose up -d
+  #+END_SRC
 
 * TODOs
 
