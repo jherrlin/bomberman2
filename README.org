@@ -20,14 +20,52 @@ https://app.diagrams.net/#G17Gn34H8VIUsH-RZyaFH083-taw6coT0G
 
 * Kafka, Zookeeper, schema-registry, ksqldb
 
-  Before moving into k8s, lets use docker-compose.
+  Before moving into k8s, lets use docker-compose to get something working.
 
   #+BEGIN_SRC shell :results output code
     docker-compose up -d
   #+END_SRC
 
+* Learn Kafka
+** Install Kafka
+
+   #+BEGIN_SRC shell :results output code
+     brew install kafka
+   #+END_SRC
+
+** Create topic
+
+   #+BEGIN_SRC shell :results output code
+     kafka-topics --create --bootstrap-server localhost:9094 --topic <TOPIC-NAME> --partitions 3 --replication-factor 3
+   #+END_SRC
+
+** List topics
+
+   #+BEGIN_SRC shell :results output code
+     kafka-topics --list --bootstrap-server localhost:9094
+   #+END_SRC
+
+** Describe topic
+
+   #+BEGIN_SRC shell :results output code
+     kafka-topics --describe --bootstrap-server localhost:9094 --topic <TOPIC-NAME>
+   #+END_SRC
+
+** Consume from topic from command line
+
+   #+BEGIN_SRC shell :results output code
+     kafka-console-consumer --bootstrap-server localhost:9094 --topic <TOPIC-NAME> --from-beginning
+   #+END_SRC
+
+** Produce to topic from command line
+
+   #+BEGIN_SRC shell :results output code
+     kafka-console-producer --bootstrap-server localhost:9094 --topic <TOPIC-NAME>
+   #+END_SRC
+
 * TODOs
 
+  - [ ] Learn Kafka and Kafka Streams
   - [ ] Create the rule set
   - [ ] Create API service
   - [ ] Report service, to inspect previous games
