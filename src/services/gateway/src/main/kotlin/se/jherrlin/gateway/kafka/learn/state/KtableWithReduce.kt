@@ -9,6 +9,7 @@ import org.apache.kafka.streams.StreamsConfig
 import org.apache.kafka.streams.StreamsConfig.CACHE_MAX_BYTES_BUFFERING_CONFIG
 import org.apache.kafka.streams.Topology
 import org.apache.kafka.streams.kstream.*
+import java.time.Duration
 import java.util.*
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -22,16 +23,17 @@ fun ktableWithReduceTopology(
     val sysout = { key: Any?, value: Any -> println("In ktableWithReduceTopology: key $key, value $value") }
     val builder = StreamsBuilder()
     val stringSerde = Serdes.String()
-    val ktableWithReduce: KStream<String, String> = builder.stream(inputTopic, Consumed.with(stringSerde, stringSerde))
-    ktableWithReduce
+    builder.stream(inputTopic, Consumed.with(stringSerde, stringSerde))
         .peek(sysout)
         .groupByKey()
+        // Sliding window. Window 15 sec, update every 1 sec.
+        .windowedBy(SlidingWindows.ofTimeDifferenceAndGrace(Duration.ofSeconds(15), Duration.ofSeconds(1)))
         .reduce(
             { acc: String, value: String -> acc + value },
             Materialized.with(stringSerde, stringSerde))
         .toStream()
         .peek(sysout)
-        .to(outputTopic, Produced.with(stringSerde, stringSerde))
+        .to(outputTopic)
     return builder.build(streamProperties)
 }
 

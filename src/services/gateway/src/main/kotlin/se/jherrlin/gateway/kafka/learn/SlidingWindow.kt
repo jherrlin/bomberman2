@@ -23,8 +23,7 @@ fun slidingWindowTopology(
     val sysout = ForeachAction { key: String?, value: String -> println("In slidingWindowTopology: key $key, value $value") }
     val builder = StreamsBuilder()
     val stringSerde = Serdes.String()
-    val countStream: KStream<String, String> = builder.stream(inputTopic, Consumed.with(stringSerde, stringSerde))
-    countStream
+    builder.stream(inputTopic, Consumed.with(stringSerde, stringSerde))
         .peek(sysout)
         .groupByKey()
         .windowedBy(SlidingWindows.ofTimeDifferenceAndGrace(Duration.ofSeconds(30), Duration.ofSeconds(1)))
