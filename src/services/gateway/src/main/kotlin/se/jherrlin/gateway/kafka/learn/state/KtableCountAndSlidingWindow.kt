@@ -33,7 +33,7 @@ fun ktableCountAndSlidingWindowTopology(
         .peek(sysout)
         .groupByKey()
         // Sliding window. Window 30 sec, update every 1 sec.
-        .windowedBy(SlidingWindows.ofTimeDifferenceAndGrace(Duration.ofSeconds(30), Duration.ofSeconds(1)))
+        .windowedBy(SlidingWindows.ofTimeDifferenceWithNoGrace(Duration.ofSeconds(30)))
         .count(Materialized.`as`("count-and-sliding-window-store"))
         .toStream()
         .map { windowedKey, value -> KeyValue.pair(windowedKey.key(), value.toString()) }
