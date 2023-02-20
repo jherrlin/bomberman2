@@ -1,0 +1,12 @@
+spring:
+  main.banner-mode: off
+  logging.level.org.apache.kafka: INFO
+  kafka.bootstrap-servers: localhost:9092
+  kafka.instance-id: ${INSTANCE_ID:0}
+  kafka.rpcHost: localhost
+    kafka.rpcPort=${SERVER_PORT:8080}
+
+server:
+  spring.mongodb.embedded.version: 3.6.2
+  port: 8888
+
