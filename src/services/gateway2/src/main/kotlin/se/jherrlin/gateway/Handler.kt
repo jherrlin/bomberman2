@@ -12,7 +12,16 @@ import reactor.core.publisher.Mono
 import se.jherrlin.gateway.models.Course
 
 @Component
-class Handler @Autowired constructor() {
+class Handler @Autowired constructor(
+    val myProducer: MyProducer
+) {
+
+    fun sendToS1(serverRequest: ServerRequest): Mono<ServerResponse> {
+        val s = serverRequest.pathVariable("s")
+        myProducer.send(s)
+        return ServerResponse.ok().build()
+    }
+
     fun findAllCourses(serverRequest: ServerRequest?): Mono<ServerResponse> {
         val courses: Flux<Course> = Flux.fromIterable(listOf(
             Course("1", "Course"),

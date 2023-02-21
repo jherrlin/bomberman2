@@ -23,5 +23,9 @@ class RouterContext {
                 GET("/courses/{id}").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),
                 handler::findCourseById
             )
+            .andRoute(
+                GET("/send/{s}").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),
+                handler::sendToS1
+            )
     }
 }
