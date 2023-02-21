@@ -18,6 +18,12 @@ planning.
 
 https://app.diagrams.net/#G17Gn34H8VIUsH-RZyaFH083-taw6coT0G
 
+* Kafka topics
+
+  - cmd.start-game
+  - cmd.join-game
+  - cmd.
+
 * Kafka, Zookeeper, schema-registry, ksqldb
 
   Before moving into k8s, lets use docker-compose to get something working.
