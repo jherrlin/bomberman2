@@ -1,0 +1,9 @@
+{
+	"type": "record",
+	"name": "Counter",
+	"namespace": "se.jherrlin.gateway.avro",
+	"fields": [
+		{"name": "count", "type":"string", "doc": "Counts"},
+		{"name": "latest", "type":"string", "doc": "Datetime when latest event came by"}
+	]
+}
