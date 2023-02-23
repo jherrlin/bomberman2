@@ -1,4 +1,4 @@
-package se.jherrlin.gateway
+package se.jherrlin.bomberman.gateway
 
 import org.apache.kafka.common.serialization.Serdes
 import org.apache.kafka.streams.KeyValue
@@ -39,6 +39,5 @@ class MyStream {
     private fun uppercaseValue(key: String, value: String): KeyValue<String?, String?> {
         return KeyValue(key, value.uppercase())
     }
-
 }
 

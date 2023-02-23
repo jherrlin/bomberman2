@@ -1,7 +1,7 @@
 {
 	"type": "record",
 	"name": "Counter",
-	"namespace": "se.jherrlin.gateway.avro",
+	"namespace": "se.jherrlin.bomberman.models",
 	"fields": [
 		{"name": "count", "type":"string", "doc": "Counts"},
 		{"name": "latest", "type":"string", "doc": "Datetime when latest event came by"}

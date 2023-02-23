@@ -1,0 +1,9 @@
+{
+  "type": "record",
+  "name": "Course",
+  "namespace": "se.jherrlin.bomberman.models",
+  "fields": [
+    {"name": "id", "type":"string", "doc": "Id"},
+    {"name": "name", "type":"string", "doc": "Name"}
+  ]
+}

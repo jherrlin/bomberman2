@@ -1,4 +1,4 @@
-package se.jherrlin.gateway
+package se.jherrlin.bomberman.gateway
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

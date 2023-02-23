@@ -1,0 +1,17 @@
+{
+  "type": "record",
+  "name": "Game",
+  "namespace": "se.jherrlin.bomberman.api.avro",
+  "fields": [
+    {
+      "name": "count",
+      "type": "int",
+      "default": 0
+    },
+    {
+      "name": "latest",
+      "type": ["null", "string"],
+      "default": null
+    }
+  ]
+}

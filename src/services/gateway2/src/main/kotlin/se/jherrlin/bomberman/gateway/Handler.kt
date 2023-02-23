@@ -1,4 +1,4 @@
-package se.jherrlin.gateway
+package se.jherrlin.bomberman.gateway
 
 
 import org.springframework.beans.factory.annotation.Autowired
@@ -9,7 +9,8 @@ import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import se.jherrlin.gateway.models.Course
+import se.jherrlin.bomberman.models.Course
+
 
 @Component
 class Handler @Autowired constructor(
@@ -25,7 +26,8 @@ class Handler @Autowired constructor(
     fun findAllCourses(serverRequest: ServerRequest?): Mono<ServerResponse> {
         val courses: Flux<Course> = Flux.fromIterable(listOf(
             Course("1", "Course"),
-            Course("2", "Course 2")))
+            Course("2", "Course 2")
+        ))
         return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(courses, Course::class.java)
     }
 
@@ -34,7 +36,8 @@ class Handler @Autowired constructor(
 
         val courses = listOf(
             Course("1", "Course"),
-            Course("2", "Course 2"))
+            Course("2", "Course 2")
+        )
 
         val courseMono: Mono<Course> = courses.find { it.id == courseId }.let { Mono.just(it!!) }
 

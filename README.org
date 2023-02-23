@@ -2,6 +2,15 @@
 #+AUTHOR: John Herrlin
 
 
+.avsc
+
+
+#+BEGIN_SRC shell :results output code
+  cd /Users/john.herrlin/git/bomberman2/src/services/gateway2/src/main/avro && \
+      java -jar /Users/john.herrlin/.m2/repository/org/apache/avro/avro-tools/1.11.1/avro-tools-1.11.1.jar compile schema Counter.avsc /Users/john.herrlin/git/bomberman2/src/services/gateway2/src/main/kotlin/
+#+END_SRC
+
+
 Bomberman 2 is my second attempt to build a bomberman game. My first attempt can
 be found [[https://github.com/jherrlin/bomberman-with-clara][here]]. The main reason for that project was to learn about rule engines,
 particularly [[clara-rules.org][Clara]] and the concept of event sourcing.
@@ -42,31 +51,32 @@ https://app.diagrams.net/#G17Gn34H8VIUsH-RZyaFH083-taw6coT0G
 ** Create topic
 
    #+BEGIN_SRC shell :results output code
-     kafka-topics --create --bootstrap-server localhost:9094 --topic <TOPIC-NAME> --partitions 3 --replication-factor 3
+     kafka-topics --create --bootstrap-server localhost:9092 --topic s1 --partitions 1 --replication-factor 1
+     kafka-topics --create --bootstrap-server localhost:9092 --topic s2 --partitions 1 --replication-factor 1
    #+END_SRC
 
 ** List topics
 
    #+BEGIN_SRC shell :results output code
-     kafka-topics --list --bootstrap-server localhost:9094
+     kafka-topics --list --bootstrap-server localhost:9092
    #+END_SRC
 
 ** Describe topic
 
    #+BEGIN_SRC shell :results output code
-     kafka-topics --describe --bootstrap-server localhost:9094 --topic <TOPIC-NAME>
+     kafka-topics --describe --bootstrap-server localhost:9092 --topic <TOPIC-NAME>
    #+END_SRC
 
 ** Consume from topic from command line
 
    #+BEGIN_SRC shell :results output code
-     kafka-console-consumer --bootstrap-server localhost:9094 --topic <TOPIC-NAME> --from-beginning
+     kafka-console-consumer --bootstrap-server localhost:9092 --topic <TOPIC-NAME> --from-beginning
    #+END_SRC
 
 ** Produce to topic from command line
 
    #+BEGIN_SRC shell :results output code
-     kafka-console-producer --bootstrap-server localhost:9094 --topic <TOPIC-NAME>
+     kafka-console-producer --bootstrap-server localhost:9092 --topic <TOPIC-NAME>
    #+END_SRC
 
 * TODOs

@@ -1,4 +1,4 @@
-package se.jherrlin.gateway
+package se.jherrlin.bomberman.gateway
 
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Component
