@@ -6,6 +6,10 @@
 
 
 #+BEGIN_SRC shell :results output code
+  curl http://localhost:8889/wordscount/hejsan
+#+END_SRC
+
+#+BEGIN_SRC shell :results output code
   cd /Users/john.herrlin/git/bomberman2/src/services/gateway2/src/main/avro && \
       java -jar /Users/john.herrlin/.m2/repository/org/apache/avro/avro-tools/1.11.1/avro-tools-1.11.1.jar compile schema Counter.avsc /Users/john.herrlin/git/bomberman2/src/services/gateway2/src/main/kotlin/
 
@@ -112,13 +116,23 @@ https://app.diagrams.net/#G17Gn34H8VIUsH-RZyaFH083-taw6coT0G
 ** Consume from topic from command line
 
    #+BEGIN_SRC shell :results output code
-     kafka-console-consumer --bootstrap-server localhost:9092 --topic <TOPIC-NAME> --from-beginning
+     kafka-console-consumer \
+         --topic s1 \
+         --bootstrap-server localhost:9092 \
+         --property print.key=true \
+         --property key.separator=":" \
+         --partition 0 \
+         --from-beginning
    #+END_SRC
 
 ** Produce to topic from command line
 
    #+BEGIN_SRC shell :results output code
-     kafka-console-producer --bootstrap-server localhost:9092 --topic <TOPIC-NAME>
+     kafka-console-producer \
+         --broker-list localhost:9092 \
+         --topic s1 \
+         --property parse.key=true \
+         --property key.separator=":"
    #+END_SRC
 
 * TODOs

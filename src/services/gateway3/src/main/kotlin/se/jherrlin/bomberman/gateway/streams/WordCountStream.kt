@@ -42,8 +42,8 @@ class WordCountStream(
     }
 
     fun queryCountStreamStore(word: String): Long {
-        val kafkaStreams: KafkaStreams? = factoryBean.getKafkaStreams()
-        val store = kafkaStreams!!.store(
+        val kafkaStreams: KafkaStreams = factoryBean.kafkaStreams!!
+        val store = kafkaStreams.store(
             StoreQueryParameters.fromNameAndType(
                 COUNT_STORE, QueryableStoreTypes.keyValueStore<String, Long>()))
         return try {
