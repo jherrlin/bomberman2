@@ -14,7 +14,8 @@ import se.jherrlin.bomberman.models.Course
 
 @Component
 class Handler @Autowired constructor(
-    val myProducer: MyProducer
+    val myProducer: MyProducer,
+    val streamCounterController: StreamCounterController
 ) {
 
     fun sendToS1(serverRequest: ServerRequest): Mono<ServerResponse> {
@@ -45,6 +46,13 @@ class Handler @Autowired constructor(
             ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue<Any>(course)) }
             .switchIfEmpty(notFound())
+    }
+
+    fun getFromStore(serverRequest: ServerRequest): Mono<ServerResponse> {
+        val key = serverRequest.pathVariable("key")
+        val v = streamCounterController.queryStore(key)
+        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
+            .body(BodyInserters.fromValue<Any>(v))
     }
 
     private fun notFound(): Mono<ServerResponse> {

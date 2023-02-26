@@ -8,7 +8,11 @@
 #+BEGIN_SRC shell :results output code
   cd /Users/john.herrlin/git/bomberman2/src/services/gateway2/src/main/avro && \
       java -jar /Users/john.herrlin/.m2/repository/org/apache/avro/avro-tools/1.11.1/avro-tools-1.11.1.jar compile schema Counter.avsc /Users/john.herrlin/git/bomberman2/src/services/gateway2/src/main/kotlin/
+
+  cd /Users/john.herrlin/git/bomberman2/src/services/gateway2/src/main/avro && \
+      java -jar /Users/john.herrlin/.m2/repository/org/apache/avro/avro-tools/1.11.1/avro-tools-1.11.1.jar compile schema *.avsc /Users/john.herrlin/git/bomberman2/src/services/gateway2/src/main/kotlin/
 #+END_SRC
+
 
 
 Bomberman 2 is my second attempt to build a bomberman game. My first attempt can
@@ -26,6 +30,44 @@ planning.
 
 
 https://app.diagrams.net/#G17Gn34H8VIUsH-RZyaFH083-taw6coT0G
+
+* Schema registry
+
+  Get schemas
+  #+BEGIN_SRC shell :results output code
+     curl -s "http://localhost:8081/subjects" | jq
+  #+END_SRC
+
+  #+RESULTS:
+  #+begin_src shell
+  []
+  #+end_src
+
+  Post schema
+  #+BEGIN_SRC shell :results output code
+    jq '. | {schema: tojson}' src/main/avro/avenger.avsc | \
+    curl -s -X POST http://localhost:8081/subjects/avro-avengers-value/versions\
+             -H "Content-Type: application/vnd.schemaregistry.v1+json" \
+             -d @-  \
+             | jq
+  #+END_SRC
+
+  Get all version of a specific schema
+  #+BEGIN_SRC shell :results output code
+    curl -s "http://localhost:8081/subjects/avro-avengers-value/versions" | jq
+  #+END_SRC
+
+  Get a specific version of a schema
+  #+BEGIN_SRC shell :results output code
+    curl -s "http://localhost:8081/subjects/avro-avengers-value/versions/1"\
+     | jq '.'
+  #+END_SRC
+
+  Get the latest value of a schema
+  #+BEGIN_SRC shell :results output code
+    curl -s "http://localhost:8081/subjects/avro-avengers-value/
+      versions/latest" | jq '.'
+  #+END_SRC
 
 * Kafka topics
 
@@ -81,6 +123,7 @@ https://app.diagrams.net/#G17Gn34H8VIUsH-RZyaFH083-taw6coT0G
 
 * TODOs
 
+  - [ ] Avro
   - [ ] Learn Kafka and Kafka Streams
   - [ ] Create the rule set
   - [ ] Create API service

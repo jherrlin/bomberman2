@@ -5,50 +5,42 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.0.2</version>
+		<version>3.1.0-M1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>se.jherrlin</groupId>
+	<groupId>se.jherrlin.bomberman</groupId>
 	<artifactId>gateway</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>gateway</name>
-	<description>Gateway service for bomberman project</description>
+	<description>Bomberman game</description>
 	<properties>
 		<java.version>17</java.version>
-		<kotlin.version>1.7.22</kotlin.version>
+		<kotlin.version>1.8.10</kotlin.version>
 	</properties>
 	<dependencies>
-		<!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients -->
-		<dependency>
-			<groupId>org.apache.kafka</groupId>
-			<artifactId>kafka-clients</artifactId>
-			<version>3.4.0</version>
-		</dependency>
 
+        <!-- Manually added deps -->
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.30</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.avro/avro -->
 		<dependency>
 			<groupId>org.apache.avro</groupId>
 			<artifactId>avro</artifactId>
 			<version>1.11.1</version>
 		</dependency>
-<!--      &lt;!&ndash; https://mvnrepository.com/artifact/org.apache.avro/avro-tools &ndash;&gt;-->
-<!--		<dependency>-->
-<!--			<groupId>org.apache.avro</groupId>-->
-<!--			<artifactId>avro-tools</artifactId>-->
-<!--			<version>1.11.1</version>-->
-<!--		</dependency>-->
+		<!-- https://mvnrepository.com/artifact/org.apache.avro/avro-tools -->
+		<dependency>
+			<groupId>org.apache.avro</groupId>
+			<artifactId>avro-tools</artifactId>
+			<version>1.11.1</version>
+		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/io.confluent/kafka-avro-serializer -->
-		<dependency>
-			<groupId>io.confluent</groupId>
-			<artifactId>kafka-avro-serializer</artifactId>
-			<version>5.3.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.kafka</groupId>
-			<artifactId>spring-kafka</artifactId>
-			<version>3.0.2</version>
-		</dependency>
+		<!-- Manually added deps -->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
@@ -64,7 +56,6 @@
 		<dependency>
 			<groupId>org.apache.kafka</groupId>
 			<artifactId>kafka-streams</artifactId>
-			<version>3.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
@@ -78,15 +69,17 @@
 			<groupId>org.jetbrains.kotlinx</groupId>
 			<artifactId>kotlinx-coroutines-reactor</artifactId>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-reload4j -->
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-reload4j</artifactId>
-			<version>2.0.6</version>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
 		</dependency>
 
-
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -97,34 +90,17 @@
 			<artifactId>reactor-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
 		<sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
 		<testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
 		<plugins>
-
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.avro</groupId>
-				<artifactId>avro-maven-plugin</artifactId>
-				<version>1.11.1</version>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>schema</goal>
-						</goals>
-						<configuration>
-							<sourceDirectory>${project.basedir}/src/main/avro/</sourceDirectory>
-							<outputDirectory>${project.build.directory}/generated/src/main/kotlin/</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -150,12 +126,25 @@
 			</plugin>
 		</plugins>
 	</build>
-
 	<repositories>
 		<repository>
-			<id>confluent</id>
-			<url>https://packages.confluent.io/maven/</url>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
 		</repository>
 	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
 
 </project>

@@ -14,10 +14,10 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class Counter extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -3765522670817106663L;
+  private static final long serialVersionUID = 3362701954532226463L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Counter\",\"namespace\":\"se.jherrlin.bomberman.models\",\"fields\":[{\"name\":\"id\",\"type\":\"string\",\"doc\":\"Id\"},{\"name\":\"name\",\"type\":\"string\",\"doc\":\"Name\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Counter\",\"namespace\":\"se.jherrlin.bomberman.models\",\"fields\":[{\"name\":\"count\",\"type\":\"int\",\"doc\":\"Counts\"},{\"name\":\"latest\",\"type\":\"string\",\"doc\":\"Datetime when latest event came by\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -73,10 +73,10 @@ public class Counter extends org.apache.avro.specific.SpecificRecordBase impleme
     return DECODER.decode(b);
   }
 
-  /** Id */
-  private java.lang.CharSequence id;
-  /** Name */
-  private java.lang.CharSequence name;
+  /** Counts */
+  private int count;
+  /** Datetime when latest event came by */
+  private java.lang.CharSequence latest;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -87,12 +87,12 @@ public class Counter extends org.apache.avro.specific.SpecificRecordBase impleme
 
   /**
    * All-args constructor.
-   * @param id Id
-   * @param name Name
+   * @param count Counts
+   * @param latest Datetime when latest event came by
    */
-  public Counter(java.lang.CharSequence id, java.lang.CharSequence name) {
-    this.id = id;
-    this.name = name;
+  public Counter(java.lang.Integer count, java.lang.CharSequence latest) {
+    this.count = count;
+    this.latest = latest;
   }
 
   @Override
@@ -105,8 +105,8 @@ public class Counter extends org.apache.avro.specific.SpecificRecordBase impleme
   @Override
   public java.lang.Object get(int field$) {
     switch (field$) {
-    case 0: return id;
-    case 1: return name;
+    case 0: return count;
+    case 1: return latest;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -116,46 +116,46 @@ public class Counter extends org.apache.avro.specific.SpecificRecordBase impleme
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
-    case 0: id = (java.lang.CharSequence)value$; break;
-    case 1: name = (java.lang.CharSequence)value$; break;
+    case 0: count = (java.lang.Integer)value$; break;
+    case 1: latest = (java.lang.CharSequence)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
 
   /**
-   * Gets the value of the 'id' field.
-   * @return Id
+   * Gets the value of the 'count' field.
+   * @return Counts
    */
-  public java.lang.CharSequence getId() {
-    return id;
+  public int getCount() {
+    return count;
   }
 
 
   /**
-   * Sets the value of the 'id' field.
-   * Id
+   * Sets the value of the 'count' field.
+   * Counts
    * @param value the value to set.
    */
-  public void setId(java.lang.CharSequence value) {
-    this.id = value;
+  public void setCount(int value) {
+    this.count = value;
   }
 
   /**
-   * Gets the value of the 'name' field.
-   * @return Name
+   * Gets the value of the 'latest' field.
+   * @return Datetime when latest event came by
    */
-  public java.lang.CharSequence getName() {
-    return name;
+  public java.lang.CharSequence getLatest() {
+    return latest;
   }
 
 
   /**
-   * Sets the value of the 'name' field.
-   * Name
+   * Sets the value of the 'latest' field.
+   * Datetime when latest event came by
    * @param value the value to set.
    */
-  public void setName(java.lang.CharSequence value) {
-    this.name = value;
+  public void setLatest(java.lang.CharSequence value) {
+    this.latest = value;
   }
 
   /**
@@ -199,10 +199,10 @@ public class Counter extends org.apache.avro.specific.SpecificRecordBase impleme
   public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<Counter>
     implements org.apache.avro.data.RecordBuilder<Counter> {
 
-    /** Id */
-    private java.lang.CharSequence id;
-    /** Name */
-    private java.lang.CharSequence name;
+    /** Counts */
+    private int count;
+    /** Datetime when latest event came by */
+    private java.lang.CharSequence latest;
 
     /** Creates a new Builder */
     private Builder() {
@@ -215,12 +215,12 @@ public class Counter extends org.apache.avro.specific.SpecificRecordBase impleme
      */
     private Builder(se.jherrlin.bomberman.models.Counter.Builder other) {
       super(other);
-      if (isValidValue(fields()[0], other.id)) {
-        this.id = data().deepCopy(fields()[0].schema(), other.id);
+      if (isValidValue(fields()[0], other.count)) {
+        this.count = data().deepCopy(fields()[0].schema(), other.count);
         fieldSetFlags()[0] = other.fieldSetFlags()[0];
       }
-      if (isValidValue(fields()[1], other.name)) {
-        this.name = data().deepCopy(fields()[1].schema(), other.name);
+      if (isValidValue(fields()[1], other.latest)) {
+        this.latest = data().deepCopy(fields()[1].schema(), other.latest);
         fieldSetFlags()[1] = other.fieldSetFlags()[1];
       }
     }
@@ -231,100 +231,99 @@ public class Counter extends org.apache.avro.specific.SpecificRecordBase impleme
      */
     private Builder(se.jherrlin.bomberman.models.Counter other) {
       super(SCHEMA$, MODEL$);
-      if (isValidValue(fields()[0], other.id)) {
-        this.id = data().deepCopy(fields()[0].schema(), other.id);
+      if (isValidValue(fields()[0], other.count)) {
+        this.count = data().deepCopy(fields()[0].schema(), other.count);
         fieldSetFlags()[0] = true;
       }
-      if (isValidValue(fields()[1], other.name)) {
-        this.name = data().deepCopy(fields()[1].schema(), other.name);
+      if (isValidValue(fields()[1], other.latest)) {
+        this.latest = data().deepCopy(fields()[1].schema(), other.latest);
         fieldSetFlags()[1] = true;
       }
     }
 
     /**
-      * Gets the value of the 'id' field.
-      * Id
+      * Gets the value of the 'count' field.
+      * Counts
       * @return The value.
       */
-    public java.lang.CharSequence getId() {
-      return id;
+    public int getCount() {
+      return count;
     }
 
 
     /**
-      * Sets the value of the 'id' field.
-      * Id
-      * @param value The value of 'id'.
+      * Sets the value of the 'count' field.
+      * Counts
+      * @param value The value of 'count'.
       * @return This builder.
       */
-    public se.jherrlin.bomberman.models.Counter.Builder setId(java.lang.CharSequence value) {
+    public se.jherrlin.bomberman.models.Counter.Builder setCount(int value) {
       validate(fields()[0], value);
-      this.id = value;
+      this.count = value;
       fieldSetFlags()[0] = true;
       return this;
     }
 
     /**
-      * Checks whether the 'id' field has been set.
-      * Id
-      * @return True if the 'id' field has been set, false otherwise.
+      * Checks whether the 'count' field has been set.
+      * Counts
+      * @return True if the 'count' field has been set, false otherwise.
       */
-    public boolean hasId() {
+    public boolean hasCount() {
       return fieldSetFlags()[0];
     }
 
 
     /**
-      * Clears the value of the 'id' field.
-      * Id
+      * Clears the value of the 'count' field.
+      * Counts
       * @return This builder.
       */
-    public se.jherrlin.bomberman.models.Counter.Builder clearId() {
-      id = null;
+    public se.jherrlin.bomberman.models.Counter.Builder clearCount() {
       fieldSetFlags()[0] = false;
       return this;
     }
 
     /**
-      * Gets the value of the 'name' field.
-      * Name
+      * Gets the value of the 'latest' field.
+      * Datetime when latest event came by
       * @return The value.
       */
-    public java.lang.CharSequence getName() {
-      return name;
+    public java.lang.CharSequence getLatest() {
+      return latest;
     }
 
 
     /**
-      * Sets the value of the 'name' field.
-      * Name
-      * @param value The value of 'name'.
+      * Sets the value of the 'latest' field.
+      * Datetime when latest event came by
+      * @param value The value of 'latest'.
       * @return This builder.
       */
-    public se.jherrlin.bomberman.models.Counter.Builder setName(java.lang.CharSequence value) {
+    public se.jherrlin.bomberman.models.Counter.Builder setLatest(java.lang.CharSequence value) {
       validate(fields()[1], value);
-      this.name = value;
+      this.latest = value;
       fieldSetFlags()[1] = true;
       return this;
     }
 
     /**
-      * Checks whether the 'name' field has been set.
-      * Name
-      * @return True if the 'name' field has been set, false otherwise.
+      * Checks whether the 'latest' field has been set.
+      * Datetime when latest event came by
+      * @return True if the 'latest' field has been set, false otherwise.
       */
-    public boolean hasName() {
+    public boolean hasLatest() {
       return fieldSetFlags()[1];
     }
 
 
     /**
-      * Clears the value of the 'name' field.
-      * Name
+      * Clears the value of the 'latest' field.
+      * Datetime when latest event came by
       * @return This builder.
       */
-    public se.jherrlin.bomberman.models.Counter.Builder clearName() {
-      name = null;
+    public se.jherrlin.bomberman.models.Counter.Builder clearLatest() {
+      latest = null;
       fieldSetFlags()[1] = false;
       return this;
     }
@@ -334,8 +333,8 @@ public class Counter extends org.apache.avro.specific.SpecificRecordBase impleme
     public Counter build() {
       try {
         Counter record = new Counter();
-        record.id = fieldSetFlags()[0] ? this.id : (java.lang.CharSequence) defaultValue(fields()[0]);
-        record.name = fieldSetFlags()[1] ? this.name : (java.lang.CharSequence) defaultValue(fields()[1]);
+        record.count = fieldSetFlags()[0] ? this.count : (java.lang.Integer) defaultValue(fields()[0]);
+        record.latest = fieldSetFlags()[1] ? this.latest : (java.lang.CharSequence) defaultValue(fields()[1]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
@@ -368,9 +367,9 @@ public class Counter extends org.apache.avro.specific.SpecificRecordBase impleme
   @Override public void customEncode(org.apache.avro.io.Encoder out)
     throws java.io.IOException
   {
-    out.writeString(this.id);
+    out.writeInt(this.count);
 
-    out.writeString(this.name);
+    out.writeString(this.latest);
 
   }
 
@@ -379,19 +378,19 @@ public class Counter extends org.apache.avro.specific.SpecificRecordBase impleme
   {
     org.apache.avro.Schema.Field[] fieldOrder = in.readFieldOrderIfDiff();
     if (fieldOrder == null) {
-      this.id = in.readString(this.id instanceof Utf8 ? (Utf8)this.id : null);
+      this.count = in.readInt();
 
-      this.name = in.readString(this.name instanceof Utf8 ? (Utf8)this.name : null);
+      this.latest = in.readString(this.latest instanceof Utf8 ? (Utf8)this.latest : null);
 
     } else {
       for (int i = 0; i < 2; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
-          this.id = in.readString(this.id instanceof Utf8 ? (Utf8)this.id : null);
+          this.count = in.readInt();
           break;
 
         case 1:
-          this.name = in.readString(this.name instanceof Utf8 ? (Utf8)this.name : null);
+          this.latest = in.readString(this.latest instanceof Utf8 ? (Utf8)this.latest : null);
           break;
 
         default:

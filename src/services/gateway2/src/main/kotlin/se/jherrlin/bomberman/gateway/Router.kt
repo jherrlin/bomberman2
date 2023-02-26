@@ -27,5 +27,9 @@ class RouterContext {
                 GET("/send/{s}").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),
                 handler::sendToS1
             )
+            .andRoute(
+                GET("/get/{s}").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),
+                handler::getFromStore
+            )
     }
 }
