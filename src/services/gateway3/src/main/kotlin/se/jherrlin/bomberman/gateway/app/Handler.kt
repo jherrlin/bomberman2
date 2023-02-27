@@ -6,13 +6,13 @@ import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import reactor.core.publisher.Mono
 import se.jherrlin.bomberman.gateway.streams.WordCount
-import se.jherrlin.bomberman.gateway.streams.WordCountWindowed
+import se.jherrlin.bomberman.gateway.streams.KeyCountSlidingWindowed
 
 
 @Component
 class Handler(
     private val wordCount: WordCount,
-    private val wordCountWindowed: WordCountWindowed
+    private val wordCountWindowed: KeyCountSlidingWindowed
 ) {
     fun queryWordCountStreamStore(serverRequest: ServerRequest): Mono<ServerResponse> {
         val word = serverRequest.pathVariable("word")
@@ -22,7 +22,7 @@ class Handler(
 
     fun queryWordCountWindowedStreamStore(serverRequest: ServerRequest): Mono<ServerResponse> {
         val word = serverRequest.pathVariable("word")
-        val wordsCount = wordCountWindowed.queryWordCountWindowedStore(word)
+        val wordsCount = wordCountWindowed.queryKeyCountSlidingWindowedStore(word)
         return ServerResponse.ok().body(BodyInserters.fromValue<Any>(wordsCount))
     }
 
