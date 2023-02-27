@@ -10,24 +10,22 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.annotation.EnableKafkaStreams
 import org.springframework.kafka.config.StreamsBuilderFactoryBean
-import org.springframework.stereotype.Component
 import mu.KotlinLogging
 import java.lang.Exception
 
 
-@Component
 @Configuration(proxyBeanMethods = false)
 @EnableKafkaStreams
-class WordCountStream(
+class WordCount(
     val factoryBean: StreamsBuilderFactoryBean
 ) {
     val stringSerde = Serdes.String()
     val COUNT_STORE = "WORD_COUNT_STREAM_STORE"
     val logger = KotlinLogging.logger {}
-    val sysout1 = ForeachAction { key: String?, value: String -> println("After: key ${key}  value ${value}") }
+    val sysout1 = ForeachAction { key: String?, value: String -> println("Got in WordCount stream: key ${key}  value ${value}") }
 
     @Bean
-    fun topology(streamsBuilder: StreamsBuilder): KTable<String, Long> {
+    fun wordCountTopology(streamsBuilder: StreamsBuilder): KTable<String, Long> {
         val messageStream: KStream<String, String> = streamsBuilder
             .stream("s1", Consumed.with(stringSerde, stringSerde))
 
@@ -41,17 +39,17 @@ class WordCountStream(
         return wordCounts
     }
 
-    fun queryCountStreamStore(word: String): Long {
+    fun queryWordCountStore(word: String): Long {
         val kafkaStreams: KafkaStreams = factoryBean.kafkaStreams!!
+        logger.info { "Stream app state: ${kafkaStreams.state()}" }
         val store = kafkaStreams.store(
             StoreQueryParameters.fromNameAndType(
                 COUNT_STORE, QueryableStoreTypes.keyValueStore<String, Long>()))
         return try {
             store.get(word);
         } catch (e: Exception) {
-            logger.error(e) {"Could not get word form store"}
+            logger.error(e) {"Could not get word from: $COUNT_STORE"}
             0L
         }
-
     }
 }

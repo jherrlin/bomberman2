@@ -20,6 +20,9 @@ class Router {
         return route<ServerResponse>(
             GET("/wordscount/{word}").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),
             handler::queryWordCountStreamStore
+        ).andRoute(
+            GET("/wordscountwindowed/{word}").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),
+            handler::queryWordCountWindowedStreamStore
         )
     }
 }

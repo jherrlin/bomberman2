@@ -1,4 +1,4 @@
-package se.jherrlin.bomberman.gateway.streams
+package se.jherrlin.bomberman.gateway.app
 
 import org.apache.kafka.clients.admin.NewTopic
 import org.springframework.context.annotation.Bean
