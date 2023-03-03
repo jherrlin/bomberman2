@@ -27,19 +27,14 @@ class WordCount(
     }
 
     @Bean
-    fun wordCountTopology(streamsBuilder: StreamsBuilder): KTable<String, Long> {
-        val messageStream: KStream<String, String> = streamsBuilder
+    fun wordCountTopology(streamsBuilder: StreamsBuilder): KTable<String, Long> =
+        streamsBuilder
             .stream("s1", Consumed.with(stringSerde, stringSerde))
-
-        val wordCounts = messageStream
             .peek(sysout1)
             .mapValues { it -> it.lowercase() }
             .flatMapValues { text -> text.split("\\W+") }
             .groupBy({key, value -> value}, Grouped.with(stringSerde, stringSerde))
             .count(Materialized.`as`(COUNT_STORE))
-
-        return wordCounts
-    }
 
     fun queryWordCountStore(word: String): Long {
         val kafkaStreams: KafkaStreams = factoryBean.kafkaStreams!!
