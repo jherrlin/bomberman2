@@ -3,6 +3,8 @@
 
 
 #+BEGIN_SRC shell :results output code
+  docker-compose -f arm64-docker-compose.yml up -d
+
   watch kafka-topics --list --bootstrap-server localhost:9092
 
   kafka-console-consumer \
@@ -18,6 +20,8 @@
       --topic s1 \
       --property parse.key=true \
       --property key.separator=":"
+
+  kafkactl produce -k hejsan -v hoppsan s1
 
   watch curl -s http://localhost:8889/wordscountwindowed/hejsan
 #+END_SRC

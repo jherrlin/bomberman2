@@ -18,6 +18,8 @@ import org.springframework.kafka.annotation.EnableKafkaStreams
 import org.springframework.kafka.config.StreamsBuilderFactoryBean
 import java.time.Duration
 import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
 
 
 @Configuration(proxyBeanMethods = false)
@@ -28,7 +30,9 @@ class KeyCountSlidingWindowed(
     val stringSerde = Serdes.String()
     val STORE_NAME = "WORD_COUNT_SLIDING_WINDOWED_STREAM_STORE"
     val logger = KotlinLogging.logger {}
-    val sysout1 = ForeachAction { key: String?, value: String -> println("Got in WordCountWindowed stream: key ${key}  value ${value}") }
+    val sysout1 = ForeachAction { key: String?, value: String ->
+        logger.debug { "Got in WordCountWindowed stream: key ${key}  value ${value}" }
+    }
 
     @Bean
     fun keyCountWindowedTopology(streamsBuilder: StreamsBuilder): KTable<Windowed<String>, Long> {
@@ -42,55 +46,51 @@ class KeyCountSlidingWindowed(
             .count(Materialized.`as`(STORE_NAME))
     }
 
+    fun instToLDT(instant: Instant) = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
+    fun epocToLDT(t: Long)= instToLDT(Instant.ofEpochMilli(t))
+
     fun queryKeyCountSlidingWindowedStore(word: String): Long {
         val streams: KafkaStreams = factoryBean.kafkaStreams!!
         val timeTo = Instant.now()
         val timeFrom = Instant.now().minusSeconds(30)
 
-        val keyQuery: KeyQuery<String, ValueAndTimestamp<Long>> =
-            KeyQuery.withKey(word);
-
         val windowKeyQuery: WindowKeyQuery<String, ValueAndTimestamp<Long>> =
             WindowKeyQuery.withKeyAndWindowStartRange(word, timeFrom, timeTo)
-
-        WindowRangeQuery.withWindowStartRange(timeFrom, timeTo)
 
         val query = inStore(STORE_NAME).withQuery(windowKeyQuery)
         val result = streams.query(query)
 
-
         try {
-            val r = result.onlyPartitionResult.result.iterator().asSequence().first()
-            println("r.key:               ${r.key}")
+            val r = result.onlyPartitionResult.result.asSequence().first()
+            println("r:                   $r")
+            println("key:                 $word")
+            println("r.key:               ${epocToLDT(r.key)}")
             println("r.value.value():     ${r.value.value()}")
-            println("r.value.timestamp(): ${r.value.timestamp()}")
+            println("r.value.timestamp(): ${epocToLDT(r.value.timestamp())}")
         } catch (e: java.lang.Exception) {
             logger.error(e) {"Could not get word form store"}
         }
 
-
-//        println("In here!")
-//
-//        logger.info { "Stream app state: ${streams.state()}" }
-
-        val store = streams.store(
-            StoreQueryParameters.fromNameAndType(
-                STORE_NAME, QueryableStoreTypes.windowStore<String, Long>()))
-
         return try {
+//            val store = streams.store(
+//                StoreQueryParameters.fromNameAndType(
+//                    STORE_NAME, QueryableStoreTypes.windowStore<String, Long>()))
+//            val tsFrom = LocalDateTime.ofInstant(timeFrom, ZoneId.systemDefault())
+//            val tsTo = LocalDateTime.ofInstant(timeTo, ZoneId.systemDefault())
+//            println("Counting '$word' in window $tsFrom - $tsTo")
 //            val iterator = store.fetch(word, timeFrom, timeTo);
 //            while (iterator.hasNext()) {
 //                val next = iterator.next()
 //                val windowTimestamp = next.key;
-//                println("Count of '$word' @ time " + windowTimestamp + " is " + next.value);
+//                val ts = LocalDateTime.ofInstant(Instant.ofEpochMilli(windowTimestamp), ZoneId.systemDefault())
+//                println("Count of '$word' @ time " + ts + " is " + next.value);
 //            }
 //
 //            iterator.close()
-            -1L
+            0
         } catch (e: Exception) {
             logger.error(e) {"Could not get word form store"}
-            -2L
+            -1L
         }
-
     }
 }

@@ -22,7 +22,9 @@ class WordCount(
     val stringSerde = Serdes.String()
     val COUNT_STORE = "WORD_COUNT_STREAM_STORE"
     val logger = KotlinLogging.logger {}
-    val sysout1 = ForeachAction { key: String?, value: String -> println("Got in WordCount stream: key ${key}  value ${value}") }
+    val sysout1 = ForeachAction { key: String?, value: String ->
+        logger.debug { "Got in WordCount stream: key ${key}  value ${value}" }
+    }
 
     @Bean
     fun wordCountTopology(streamsBuilder: StreamsBuilder): KTable<String, Long> {
@@ -41,7 +43,7 @@ class WordCount(
 
     fun queryWordCountStore(word: String): Long {
         val kafkaStreams: KafkaStreams = factoryBean.kafkaStreams!!
-        logger.info { "Stream app state: ${kafkaStreams.state()}" }
+        logger.debug { "Stream app state: ${kafkaStreams.state()}" }
         val store = kafkaStreams.store(
             StoreQueryParameters.fromNameAndType(
                 COUNT_STORE, QueryableStoreTypes.keyValueStore<String, Long>()))

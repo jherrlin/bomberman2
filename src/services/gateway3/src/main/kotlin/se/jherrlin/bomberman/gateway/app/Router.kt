@@ -1,8 +1,6 @@
 package se.jherrlin.bomberman.gateway.app
 
 
-
-
 import org.springframework.web.reactive.function.server.RouterFunctions.route
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

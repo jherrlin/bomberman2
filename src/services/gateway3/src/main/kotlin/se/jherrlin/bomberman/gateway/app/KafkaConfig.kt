@@ -12,20 +12,20 @@ class KafkaConfig {
     fun createTopicS1(): NewTopic =
         TopicBuilder.name("s1")
             .partitions(1)
-            .replicas(3)
+            .replicas(1)
             .build()
 
     @Bean
     fun createTopicS2(): NewTopic =
         TopicBuilder.name("s2")
             .partitions(1)
-            .replicas(3)
+            .replicas(1)
             .build()
 
     @Bean
     fun createTopicS3(): NewTopic =
         TopicBuilder.name("s3")
             .partitions(1)
-            .replicas(3)
+            .replicas(1)
             .build()
 }
