@@ -2,6 +2,47 @@
 #+AUTHOR: John Herrlin
 
 
+#+BEGIN_SRC shell :results output code
+  watch kafka-topics --list --bootstrap-server localhost:9092
+
+  kafka-console-consumer \
+      --topic s1 \
+      --bootstrap-server localhost:9092 \
+      --property print.key=true \
+      --property key.separator=":" \
+      --partition 0 \
+      --from-beginning
+
+  kafka-console-producer \
+      --broker-list localhost:9092 \
+      --topic s1 \
+      --property parse.key=true \
+      --property key.separator=":"
+
+  watch curl -s http://localhost:8889/wordscountwindowed/hejsan
+#+END_SRC
+
+
+   When multiple hosts =KeyQueryMetadata= knows what instance has a specific
+   key.
+
+   #+BEGIN_SRC kotlin :results output code
+     KeyQueryMetadata.getKeyMetadata
+   #+END_SRC
+
+   #+BEGIN_SRC text :results output code
+     KeyQuery
+     RangeQuery
+     WindowKeyQuery
+     WindowRangeQuery
+   #+END_SRC
+
+   https://blogs.apache.org/kafka/date/20220517
+   KIP-796
+   KIP-805
+   KIP-806
+
+
 .avsc
 
 

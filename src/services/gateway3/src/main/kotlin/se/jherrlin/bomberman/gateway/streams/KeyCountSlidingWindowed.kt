@@ -9,6 +9,7 @@ import org.apache.kafka.streams.kstream.*
 import org.apache.kafka.streams.query.KeyQuery
 import org.apache.kafka.streams.query.StateQueryRequest.inStore
 import org.apache.kafka.streams.query.WindowKeyQuery
+import org.apache.kafka.streams.query.WindowRangeQuery
 import org.apache.kafka.streams.state.QueryableStoreTypes
 import org.apache.kafka.streams.state.ValueAndTimestamp
 import org.springframework.context.annotation.Bean
@@ -52,29 +53,39 @@ class KeyCountSlidingWindowed(
         val windowKeyQuery: WindowKeyQuery<String, ValueAndTimestamp<Long>> =
             WindowKeyQuery.withKeyAndWindowStartRange(word, timeFrom, timeTo)
 
+        WindowRangeQuery.withWindowStartRange(timeFrom, timeTo)
+
         val query = inStore(STORE_NAME).withQuery(windowKeyQuery)
         val result = streams.query(query)
 
 
-        result.onlyPartitionResult.result.iterator().hasNext()
+        try {
+            val r = result.onlyPartitionResult.result.iterator().asSequence().first()
+            println("r.key:               ${r.key}")
+            println("r.value.value():     ${r.value.value()}")
+            println("r.value.timestamp(): ${r.value.timestamp()}")
+        } catch (e: java.lang.Exception) {
+            logger.error(e) {"Could not get word form store"}
+        }
 
-        println("In here!")
 
-        logger.info { "Stream app state: ${streams.state()}" }
+//        println("In here!")
+//
+//        logger.info { "Stream app state: ${streams.state()}" }
 
         val store = streams.store(
             StoreQueryParameters.fromNameAndType(
                 STORE_NAME, QueryableStoreTypes.windowStore<String, Long>()))
 
         return try {
-            val iterator = store.fetch(word, timeFrom, timeTo);
-            while (iterator.hasNext()) {
-                val next = iterator.next()
-                val windowTimestamp = next.key;
-                println("Count of '$word' @ time " + windowTimestamp + " is " + next.value);
-            }
-
-            iterator.close()
+//            val iterator = store.fetch(word, timeFrom, timeTo);
+//            while (iterator.hasNext()) {
+//                val next = iterator.next()
+//                val windowTimestamp = next.key;
+//                println("Count of '$word' @ time " + windowTimestamp + " is " + next.value);
+//            }
+//
+//            iterator.close()
             -1L
         } catch (e: Exception) {
             logger.error(e) {"Could not get word form store"}
